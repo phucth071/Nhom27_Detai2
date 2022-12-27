@@ -254,7 +254,7 @@ POLY Mul(POLY P, POLY Q) {
 
 int main()
 {
-    //_setmode(_fileno(stdout), _O_U16TEXT);
+    system("color f7");
     char ini[] = "C:\\TURBOC3\\BGI";
     initgraph();
     int x = 100, y = 100;

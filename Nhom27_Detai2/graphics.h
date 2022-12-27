@@ -28,6 +28,7 @@ short movx;
 void initgraph(void)
 {
 	system("cls");
+	
 	mov = 30;
 	movx = 0;
 	HWND hWnd = GetForegroundWindow();
@@ -40,9 +41,16 @@ void initgraph(void)
 	PEN = getPen(PS_SOLID, 2, RGB(255, 255, 255));
 	StdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleOutputCP(CP_UTF8);
-
 }
+VOID WINAPI SetConsoleColors(WORD attribs) {
+	HANDLE hOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
+	CONSOLE_SCREEN_BUFFER_INFOEX cbi;
+	cbi.cbSize = sizeof(CONSOLE_SCREEN_BUFFER_INFOEX);
+	GetConsoleScreenBufferInfoEx(hOutput, &cbi);
+	cbi.wAttributes = attribs;
+	SetConsoleScreenBufferInfoEx(hOutput, &cbi);
+}
 void changey(int value) { if (value > -1000 & value < 1000) mov = (short)value; }
 void changex(int value) { if (value > -1000 & value < 1000) movx = (short)value; }
 int getmaxx(void) { return 640; }
