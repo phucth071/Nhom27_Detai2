@@ -22,23 +22,12 @@ void DrawANode(MONO* k, int x1, int y1) {
     line(x1, y1 + sery, x1 + nx, y1 + sery);
     line(x1 + serx, y1 + sery, x1 + serx, y1 + ny);
     line(x1 + 2 * serx, y1 + sery, x1 + 2 * serx, y1 + ny);
-    //line(x1 + 3 * serx, y1 + sery, x1 + 3 * serx, y1 + ny);
-    //line(x1 + 4 * serx, y1 + sery, x1 + 4 * serx, y1 + ny);
     line(x1 + nx, y1 + sery, x1 + nx + serx, y1 + sery);
     line(x1 + nx + serx, y1 + sery, x1 + nx + serx, y1 + ny);
     line(x1 + nx, y1 + ny, x1 + nx + serx, y1 + ny);
     sprintf_s(temp, " %d ", k->COEF);
     int len = strlen(temp);
     lineWithText(x1 + (nx / 2) - len * 5 + 9, y1, 0, 0, k->COEF);
-    /*char* sign;
-    if (k->S != 0) {
-        char sign[] = " + ";
-        lineWithText(x1 + (serx / 2) - 5, y1 + sery, 0, 0, sign);
-    }
-    else {
-        char sign[] = " - ";
-        lineWithText(x1 + (serx / 2) - 5, y1 + sery, 0, 0, sign);
-    }*/
     sprintf_s(temp, " %d ", k->A);
     len = strlen(temp);
     lineWithText(x1 + (serx / 2) - 5, y1 + sery, 0, 0, k->A);
@@ -80,23 +69,6 @@ void SHOW(POLY P, int x, int y) {
         if (k->COEF != 0 || k->S == 0)
         {
             DrawANode(k, x, y);
-            //_getch();
-
-            //Draw link
-            /*setcolor(8);
-            if (k->S != 0) {
-                int xx = circle_X - nx, yy1 = circle_Y + sery / 2 + 15, yy2 = circle_Y + ny + sery - 8;
-                line(circle_X, circle_Y, circle_X, yy1);
-                line(xx - 1, yy1, circle_X, yy1);
-                line(xx, yy1, xx, yy2);
-                line(xx, yy2, x, yy2);
-            }
-            else {
-                setcolor(12);
-                line(circle_X, circle_Y, circle_X + 50, circle_Y);
-                line(circle_X + 50, 100 + sery, circle_X + 50, circle_Y);
-                line(circle_X + serx / 2, 100 + sery, circle_X + 50, 100 + sery);
-            }*/
             x += nx + 33 + nx / 3;
         }
         k = k->next;
@@ -144,55 +116,6 @@ void InDaThuc(int x, int y, POLY P)
     }
     lineWithText(x, y, 0, 0, s);
 }
-
-//Dang co loi -----------------------
-//Phep cong 2 da thuc theo thuat toan
-//void Add(POLY P, POLY Q) {
-//    //Ket qua phep cong tra ve Q
-//    MONO* mP, * mQ, * Q1, * Q2, * AVAIL; //mP la P, mQ la Q trong Algorithm A
-//    AVAIL = (MONO*)malloc(sizeof(MONO));
-//    Q1 = (MONO*)malloc(sizeof(MONO));
-//    Q2 = (MONO*)malloc(sizeof(MONO));
-//    mP = P.Head; mQ = Q.Head; //A1
-//    int abcP, abcQ;
-//    while (mP->next != P.Head && mQ->next != Q.Head) {
-//        abcQ = mQ->A * 100 + mQ->B * 10 + mQ->C;
-//        abcP = mP->A * 100 + mP->B * 10 + mP->C;
-//
-//        if (abcP < abcQ) { //A2
-//            Q1 = mQ;
-//            mQ = mQ->next;
-//        }
-//        else {
-//            if (abcP == abcQ) //A3
-//            {
-//                if (abcP < 0)
-//                    break;
-//                else {
-//                    mQ->COEF += mP->COEF;
-//                    if (mQ->COEF == 0) { //A4
-//                        Q2 = mQ;
-//                        mQ = mQ->next;
-//                        Q1->next = mQ;
-//                        AVAIL = Q2;
-//                        mP = mP->next;
-//                    }
-//                    else {
-//                        mP = mP->next;
-//                        Q1 = mQ;
-//                        mQ = mQ->next;
-//                    }
-//                }
-//            }
-//            else //abcP > abcQ ; A5
-//            {
-//                Q2 = AVAIL;
-//                Q2->COEF = mP->COEF; Q2->A = mP->A; Q2->B = mP->B; Q2->C = mP->C;
-//                Q2->next = mQ; Q1->next = Q2; mP = mP->next;
-//            }
-//        }
-//    }
-//}
 
 //Tinh ket qua cua phep cong 2 da thuc P va Q
 POLY Add(POLY P, POLY Q) {
