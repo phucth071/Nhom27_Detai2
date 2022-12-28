@@ -12,8 +12,8 @@ int circle_X, circle_Y, serx, sery;
 char temp[1000];
 
 //Ve 1 don thuc
-void DrawANode(MONO* k, int x1, int y1) {
-    setcolor(7);
+void DrawANode(MONO* k, int x1, int y1, int color, bool LINK) {
+    setcolor(color);
     line(x1 - 1, y1, x1 + nx, y1);
     line(x1, y1 + ny, x1 + nx, y1 + ny);
     line(x1, y1 - 1, x1, y1 + ny);
@@ -22,9 +22,7 @@ void DrawANode(MONO* k, int x1, int y1) {
     line(x1, y1 + sery, x1 + nx, y1 + sery);
     line(x1 + serx, y1 + sery, x1 + serx, y1 + ny);
     line(x1 + 2 * serx, y1 + sery, x1 + 2 * serx, y1 + ny);
-    line(x1 + nx, y1 + sery, x1 + nx + serx, y1 + sery);
-    line(x1 + nx + serx, y1 + sery, x1 + nx + serx, y1 + ny);
-    line(x1 + nx, y1 + ny, x1 + nx + serx, y1 + ny);
+    
     sprintf_s(temp, " %d ", k->COEF);
     int len = strlen(temp);
     lineWithText(x1 + (nx / 2) - len * 5 + 9, y1, 0, 0, k->COEF);
@@ -36,28 +34,36 @@ void DrawANode(MONO* k, int x1, int y1) {
     lineWithText(x1 + serx + (serx / 2) - 5, y1 + sery, 0, 0, k->B);
     sprintf_s(temp, " %d ", k->C);
     len = strlen(temp);
-    lineWithText(x1 + serx * 2 + (serx / 2) - 5, y1 + sery, 0, 0, k->C);
-    setcolor(3);
-    int centerCircle_X = x1 + nx + serx / 2, centerCircle_Y = y1 + ny - sery / 2;
-    circle(centerCircle_X, centerCircle_Y, 8);
-    if (k->S == 1) {
-        setcolor(7);
-        line(centerCircle_X, centerCircle_Y, centerCircle_X + 33, centerCircle_Y);
-        line(centerCircle_X + 33, centerCircle_Y - sery / 2, centerCircle_X + 33, centerCircle_Y);
-        line(centerCircle_X + 32, centerCircle_Y - sery / 2 - 1, centerCircle_X + 32 + serx / 2, centerCircle_Y - sery / 2 - 1);
-        line(centerCircle_X + 32 + serx / 2 - 5, centerCircle_Y - sery / 2 - 1 - 5, centerCircle_X + 32 + serx / 2, centerCircle_Y - sery / 2 - 1);
-        line(centerCircle_X + 32 + serx / 2 - 5, centerCircle_Y - sery / 2 - 1 + 5, centerCircle_X + 32 + serx / 2, centerCircle_Y - sery / 2 - 1);
+    if (k->S == 0) {
+        lineWithText(x1 + serx * 2 + (serx / 2) - 5, y1 + sery, 0, 0, -k->C);
     }
-    else {
-        setcolor(4);
-        line(centerCircle_X, centerCircle_Y, centerCircle_X + 33, centerCircle_Y);
-        line(centerCircle_X + 33, centerCircle_Y, centerCircle_X + 33, centerCircle_Y + sery);
-        line(100 - serx / 2, centerCircle_Y + sery, centerCircle_X + 33, centerCircle_Y + sery);
-        line(100 - serx / 2, centerCircle_Y, 100 - serx / 2, centerCircle_Y + sery);
-        line(100 - serx / 2, y1 + sery, 100 - serx / 2, centerCircle_Y + sery);
-        line(100 - serx / 2, y1 + sery, 100, y1 + sery);
-        line(94, y1 + sery - 5, 99, y1 + sery);
-        line(94, y1 + sery + 5, 99, y1 + sery);
+    else lineWithText(x1 + serx * 2 + (serx / 2) - 5, y1 + sery, 0, 0, k->C);
+    setcolor(3);
+    if (LINK == true) {
+        line(x1 + nx, y1 + sery, x1 + nx + serx, y1 + sery);
+        line(x1 + nx + serx, y1 + sery, x1 + nx + serx, y1 + ny);
+        line(x1 + nx, y1 + ny, x1 + nx + serx, y1 + ny);
+        int centerCircle_X = x1 + nx + serx / 2, centerCircle_Y = y1 + ny - sery / 2;
+        circle(centerCircle_X, centerCircle_Y, 8);
+        if (k->S == 1) {
+            setcolor(7);
+            line(centerCircle_X, centerCircle_Y, centerCircle_X + 33, centerCircle_Y);
+            line(centerCircle_X + 33, centerCircle_Y - sery / 2, centerCircle_X + 33, centerCircle_Y);
+            line(centerCircle_X + 32, centerCircle_Y - sery / 2 - 1, centerCircle_X + 32 + serx / 2, centerCircle_Y - sery / 2 - 1);
+            line(centerCircle_X + 32 + serx / 2 - 5, centerCircle_Y - sery / 2 - 1 - 5, centerCircle_X + 32 + serx / 2, centerCircle_Y - sery / 2 - 1);
+            line(centerCircle_X + 32 + serx / 2 - 5, centerCircle_Y - sery / 2 - 1 + 5, centerCircle_X + 32 + serx / 2, centerCircle_Y - sery / 2 - 1);
+        }
+        else {
+            setcolor(4);
+            line(centerCircle_X, centerCircle_Y, centerCircle_X + 33, centerCircle_Y);
+            line(centerCircle_X + 33, centerCircle_Y, centerCircle_X + 33, centerCircle_Y + sery);
+            line(100 - serx / 2, centerCircle_Y + sery, centerCircle_X + 33, centerCircle_Y + sery);
+            line(100 - serx / 2, centerCircle_Y, 100 - serx / 2, centerCircle_Y + sery);
+            line(100 - serx / 2, y1 + sery, 100 - serx / 2, centerCircle_Y + sery);
+            line(100 - serx / 2, y1 + sery, 100, y1 + sery);
+            line(94, y1 + sery - 5, 99, y1 + sery);
+            line(94, y1 + sery + 5, 99, y1 + sery);
+        }
     }
 }
 
@@ -68,7 +74,20 @@ void SHOW(POLY P, int x, int y) {
     do {
         if (k->COEF != 0 || k->S == 0)
         {
-            DrawANode(k, x, y);
+            DrawANode(k, x, y, 7, 1);
+            x += nx + 33 + nx / 3;
+        }
+        k = k->next;
+    } while (k != nullptr && k != P.Head);
+}
+
+void SHOW(POLY P, int x, int y, bool LINK) {
+    int i = 0;
+    MONO* k = P.Head;
+    do {
+        if (k->COEF != 0 || k->S == 0)
+        {
+            DrawANode(k, x, y, 7, LINK);
             x += nx + 33 + nx / 3;
         }
         k = k->next;
@@ -142,6 +161,7 @@ POLY Add(POLY P, POLY Q) {
     p = (MONO*)malloc(sizeof(MONO));
     p->COEF = 0; p->A = 0; p->B = 0; p->C = 1; p->S = 0; p->next = A.Head;
     A.insertTail(p);
+    A.RemoveZero();
     A.RemoveDup();
     A.Sort();
     return A;
@@ -170,9 +190,124 @@ POLY Mul(POLY P, POLY Q) {
     MONO* p2 = (MONO*)malloc(sizeof(MONO));
     p2->COEF = 0; p2->A = 0; p2->B = 0; p2->C = 1; p2->S = 0; p2->next = M.Head;
     M.insertTail(p2);
+    M.RemoveZero();
     M.RemoveDup();
     M.Sort();
     return M;
+}
+
+void moPhongAdd(POLY P, POLY Q) {
+    SHOW(P, 100, 100);
+    SHOW(Q, 100, 180);
+    POLY A = Add(P, Q);
+    int xP = 100, yP = 100, xQ = 100, yQ = 180, xA = 100, yA = 300;
+    MONO* hP = P.Head, * hQ = Q.Head, * hA = A.Head;
+    Sleep(500);
+    while (hA->next != A.Head) {
+        if (tinhABC(hP) < tinhABC(hQ)) {
+            DrawANode(hQ, xQ, yQ, 9, 0);
+            xQ += nx + 33 + nx / 3;
+            DrawANode(hA, xA, yA, 9, 0);
+            xA += nx + 33 + nx / 3;
+            hQ = hQ->next;
+            hA = hA->next;
+            Sleep(1000);
+        }
+        else if (tinhABC(hP) == tinhABC(hQ))
+        {
+            DrawANode(hP, xP, yP, 10, 0);
+            xP += nx + 33 + nx / 3;
+            DrawANode(hQ, xQ, yQ, 10, 0);
+            xQ += nx + 33 + nx / 3;
+            DrawANode(hA, xA, yA, 10, 0);
+            xA += nx + 33 + nx / 3;
+            hP = hP->next;
+            hQ = hQ->next;
+            hA = hA->next;
+            Sleep(1000);
+        }
+        else if (tinhABC(hP) > tinhABC(hQ)) {
+            DrawANode(hP, xP, yP, 8, 0);
+            xP += nx + 33 + nx / 3;
+            DrawANode(hA, xA, yA, 8, 0);
+            xA += nx + 33 + nx / 3;
+            hP = hP->next;
+            hA = hA->next;
+            Sleep(1000);
+        }
+        if (hA->next == A.Head) {
+            DrawANode(hA, xA, yA, 7, 0);
+            xA += nx + 33 + nx / 3;
+            Sleep(1000);
+        }
+    }
+    Sleep(1000);
+}
+
+
+void moPhongMul(POLY P, POLY Q) {
+    POLY M = Mul(P, Q);
+    POLY T;
+    T.init();
+    SHOW(P, 100, 100, 0);
+    SHOW(Q, 100, 180, 0);
+    MONO* hP = P.Head, * hQ = Q.Head, * hM = M.Head;
+    int xP = 100, yP = 100, xQ = 100, yQ = 180, xM = 100, yM = 300, color = 1;
+    int demY = 0;
+    MONO* t; 
+    int xt = 100, yt = 460;
+    struct POS pos[1000];
+    int ipos = 0;
+    while (hP->next != P.Head) {
+        color++;
+        DrawANode(hP, xP, yP, color, 0);
+        xP += nx + 33 + nx / 3;
+        hQ = Q.Head;
+        xQ = 100;
+        if (color == 15 || color == 7 || color == 1)
+            color++;
+        while (hQ->next != Q.Head) {
+            DrawANode(hQ, xQ, yQ, color, 0);
+            xQ += nx + 33 + nx / 3;
+            t = (MONO*)malloc(sizeof(MONO));
+            t->COEF = hP->COEF * hQ->COEF; 
+            t->A = hP->A + hQ->A; t->B = hP->B + hQ->B; t->C = hP->C + hQ->C; t->S = 2; t->next = T.Head;
+            T.insertTail(t);
+            hQ = hQ->next;
+            pos[ipos].posx = xt;
+            pos[ipos].posy = yt;
+            ipos++;
+            DrawANode(t, xt, yt, 1, 0);
+            xt += nx + 33 + nx / 3;
+            demY++;
+            if (demY == 9)
+            {
+                yt += 60;
+                xt = 100;
+            }
+            Sleep(1000);
+        }
+        hP = hP->next;
+    }
+    hM = M.Head; color = 2;
+    int i;
+    MONO* hT;
+    while (hM->next != M.Head) {
+        i = 0;
+        DrawANode(hM, xM, yM, color, 0);
+        xM += nx + 33 + nx / 3;
+        hT = T.Head;
+        while (hT->next != T.Head) {
+            if (tinhABC(hM) == tinhABC(hT)) {
+                DrawANode(hT, pos[i].posx, pos[i].posy, color, 0);
+                Sleep(500);
+            }
+            i++;
+            hT = hT->next;
+        }
+        color++;
+        hM = hM->next;
+    }
 }
 
 int main()
@@ -189,8 +324,8 @@ int main()
     POLY s2;
     s2.init();
 
-    FILE* file1 = fopen("../input1_2.txt", "r");
-    FILE* file2 = fopen("../input2_2.txt", "r");
+    FILE* file1 = fopen("../input1_1.txt", "r");
+    FILE* file2 = fopen("../input1_2.txt", "r");
     if (!file1) {
         printf("Reading error!");
     }
@@ -287,6 +422,7 @@ int main()
             else if (luachon == 3) {
                 x = 100; y = 50;
                 system("cls");
+                moPhongAdd(s1, s2);
                 /*char* text = (char*)"DA THUC THU NHAT: P = ";
                 lineWithText(x, y, 0, 0, text);
                 InDaThuc(x + strlen(text) * 9, y, s1);*/
@@ -306,7 +442,6 @@ int main()
                 lineWithText(100, 370, 0, 0, text);
                 InDaThuc(100 + strlen(text) * 9 - 9, 370, A);
                 setcolor(1);
-                line(0, 260, 2000, 260);
                 text = (char*)"A = ";
                 lineWithText(50, 312, 0, 0, text);
                 SHOW(A, 100, 300);
@@ -317,6 +452,7 @@ int main()
             else if (luachon == 4) {
                 x = 100; y = 50;
                 system("cls");
+                moPhongMul(s1, s2);
                 /*char* text = (char*)"DA THUC THU NHAT: P = ";
                 lineWithText(x, y, 0, 0, text);
                 InDaThuc(x + strlen(text) * 9, y, s1);*/
@@ -336,7 +472,6 @@ int main()
                 lineWithText(100, 370, 0, 0, text);
                 InDaThuc(100 + strlen(text) * 9 - 9, 370, M);
                 setcolor(1);
-                line(0, 260, 2000, 260);
                 text = (char*)"M = ";
                 lineWithText(50, 312, 0, 0, text);
                 SHOW(M, 100, 300);

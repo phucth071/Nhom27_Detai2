@@ -1,5 +1,10 @@
 #include <iostream>
 
+struct POS {
+    int posx;
+    int posy;
+};
+
 struct MONO {           //Don thuc (monomial)
     int COEF;           //COEF la he so
     int A, B, C, S;     //A la so mu cua x, B la y, C la z, S la sign
@@ -56,6 +61,18 @@ struct POLY {           //Da thuc (polynomial)
                     delete(dup);
                 }
                 else j = j->next;
+            }
+            i = i->next;
+        }
+    }
+    void RemoveZero() {
+        MONO* i, * zero;
+        i = Head;
+        while (i->next != Head) {
+            if (i->COEF == 0 && i->S == 1) {
+                zero = i;
+                i = i->next;
+                delete(i);
             }
             i = i->next;
         }
