@@ -241,7 +241,6 @@ void moPhongAdd(POLY P, POLY Q) {
             Sleep(1000);
         }
     }
-    Sleep(1000);
 }
 
 
@@ -285,7 +284,7 @@ void moPhongMul(POLY P, POLY Q) {
                 yt += 60;
                 xt = 100;
             }
-            Sleep(1000);
+            Sleep(500);
         }
         hP = hP->next;
     }
@@ -312,7 +311,7 @@ void moPhongMul(POLY P, POLY Q) {
 
 int main()
 {
-    system("color f7");
+    system("color f1");
     char ini[] = "C:\\TURBOC3\\BGI";
     initgraph();
     int x = 100, y = 100;
@@ -324,8 +323,8 @@ int main()
     POLY s2;
     s2.init();
 
-    FILE* file1 = fopen("../input1_1.txt", "r");
-    FILE* file2 = fopen("../input1_2.txt", "r");
+    FILE* file1 = fopen("../input1_2.txt", "r");
+    FILE* file2 = fopen("../input2_2.txt", "r");
     if (!file1) {
         printf("Reading error!");
     }
@@ -422,11 +421,15 @@ int main()
             else if (luachon == 3) {
                 x = 100; y = 50;
                 system("cls");
-                moPhongAdd(s1, s2);
+                moPhongAdd(s1, s2); 
+                char* text = (char*)"AN NUT BAT KY DE XEM KET QUA SAU KHI RUT GON";
+                lineWithText(100, 370, 0, 0, text);
+                _getch();
+                system("cls");
                 /*char* text = (char*)"DA THUC THU NHAT: P = ";
                 lineWithText(x, y, 0, 0, text);
                 InDaThuc(x + strlen(text) * 9, y, s1);*/
-                char* text = (char*)"P = ";
+                text = (char*)"P = ";
                 lineWithText(50, 112, 0, 0, text);
                 SHOW(s1, 100, 100);
                 /*text = (char*)"DA THUC THU HAI: Q = ";
@@ -453,10 +456,14 @@ int main()
                 x = 100; y = 50;
                 system("cls");
                 moPhongMul(s1, s2);
+                char* text = (char*)"AN NUT BAT KY DE XEM KET QUA SAU KHI RUT GON";
+                lineWithText(100, 370, 0, 0, text);
+                _getch();
+                system("cls");
                 /*char* text = (char*)"DA THUC THU NHAT: P = ";
                 lineWithText(x, y, 0, 0, text);
                 InDaThuc(x + strlen(text) * 9, y, s1);*/
-                char* text = (char*)"P = ";
+                text = (char*)"P = ";
                 lineWithText(50, 112, 0, 0, text);
                 SHOW(s1, 100, 100);
                 /*text = (char*)"DA THUC THU HAI: Q = ";
