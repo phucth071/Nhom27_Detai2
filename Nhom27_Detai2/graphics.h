@@ -28,7 +28,7 @@ short movx;
 void initgraph(void)
 {
 	system("cls");
-	
+	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
 	mov = 30;
 	movx = 0;
 	HWND hWnd = GetForegroundWindow();
