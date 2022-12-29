@@ -306,6 +306,12 @@ void moPhongMul(POLY P, POLY Q) {
         }
         color++;
         hM = hM->next;
+        if (hM->next == M.Head) {
+            Sleep(500);
+            DrawANode(hM, xM, yM, 7, 0);
+            xM += nx + 33 + nx / 3;
+            Sleep(1000);
+        }
     }
 }
 
@@ -323,8 +329,8 @@ int main()
     POLY s2;
     s2.init();
 
-    FILE* file1 = fopen("../input1_2.txt", "r");
-    FILE* file2 = fopen("../input2_2.txt", "r");
+    FILE* file1 = fopen("../input1_1.txt", "r");
+    FILE* file2 = fopen("../input2_1.txt", "r");
     if (!file1) {
         printf("Reading error!");
     }
@@ -454,7 +460,7 @@ int main()
                 x = 100; y = 50;
                 system("cls");
                 moPhongMul(s1, s2);
-                Sleep(2000);
+                Sleep(1000);
                 system("cls");
                 /*char* text = (char*)"DA THUC THU NHAT: P = ";
                 lineWithText(x, y, 0, 0, text);
