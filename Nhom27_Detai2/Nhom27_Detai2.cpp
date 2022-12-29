@@ -363,8 +363,8 @@ int main()
     s1.Sort(); s1.RemoveDup();
     s2.Sort(); s2.RemoveDup();
     ShowCur(0);
-    system("pause");
-    system("cls");
+    //system("pause");
+    //system("cls");
     bool co = false;
     do {
         int luachon = 0;
@@ -422,14 +422,12 @@ int main()
                 x = 100; y = 50;
                 system("cls");
                 moPhongAdd(s1, s2); 
-                char* text = (char*)"AN NUT BAT KY DE XEM KET QUA SAU KHI RUT GON";
-                lineWithText(100, 370, 0, 0, text);
-                _getch();
+                Sleep(1000);
                 system("cls");
                 /*char* text = (char*)"DA THUC THU NHAT: P = ";
                 lineWithText(x, y, 0, 0, text);
                 InDaThuc(x + strlen(text) * 9, y, s1);*/
-                text = (char*)"P = ";
+                char* text = (char*)"P = ";
                 lineWithText(50, 112, 0, 0, text);
                 SHOW(s1, 100, 100);
                 /*text = (char*)"DA THUC THU HAI: Q = ";
@@ -456,14 +454,12 @@ int main()
                 x = 100; y = 50;
                 system("cls");
                 moPhongMul(s1, s2);
-                char* text = (char*)"AN NUT BAT KY DE XEM KET QUA SAU KHI RUT GON";
-                lineWithText(100, 370, 0, 0, text);
-                _getch();
+                Sleep(2000);
                 system("cls");
                 /*char* text = (char*)"DA THUC THU NHAT: P = ";
                 lineWithText(x, y, 0, 0, text);
                 InDaThuc(x + strlen(text) * 9, y, s1);*/
-                text = (char*)"P = ";
+                char* text = (char*)"P = ";
                 lineWithText(50, 112, 0, 0, text);
                 SHOW(s1, 100, 100);
                 /*text = (char*)"DA THUC THU HAI: Q = ";
