@@ -94,9 +94,6 @@ void SHOW(POLY P, int x, int y, bool LINK) {
     } while (k != nullptr && k != P.Head);
 }
 
-void setXY(POLY P, int x, int y) {
-}
-
 //In da thuc dang text o vi tri x, y
 void InDaThuc(int x, int y, POLY P)
 {
@@ -137,33 +134,93 @@ void InDaThuc(int x, int y, POLY P)
 }
 
 //Tinh ket qua cua phep cong 2 da thuc P va Q
+//POLY Add(POLY P, POLY Q) {
+//    POLY A;
+//    A.init();
+//
+//    MONO* hP = P.Head, * hQ = Q.Head;
+//    MONO* hA, * p;
+//
+//    while (hP->next != P.Head) {
+//        hA = (MONO*)malloc(sizeof(MONO));
+//        hA->COEF = hP->COEF; hA->A = hP->A; hA->B = hP->B; hA->C = hP->C; hA->S = 1;
+//        hA->next = A.Head;
+//        A.insertTail(hA);
+//        hP = hP->next;
+//    }
+//    while (hQ->next != Q.Head) {
+//        hA = (MONO*)malloc(sizeof(MONO));
+//        hA->COEF = hQ->COEF; hA->A = hQ->A; hA->B = hQ->B; hA->C = hQ->C; hA->S = 1;
+//        hA->next = A.Head;
+//        A.insertTail(hA);
+//        hQ = hQ->next;
+//    }
+//    p = (MONO*)malloc(sizeof(MONO));
+//    p->COEF = 0; p->A = 0; p->B = 0; p->C = 1; p->S = 0; p->next = A.Head;
+//    A.insertTail(p);
+//    A.RemoveZero();
+//    A.RemoveDup();
+//    A.Sort();
+//    return A;
+//}
+
+//Tinh ket qua va mo phong phep cong 2 da thuc P va Q
 POLY Add(POLY P, POLY Q) {
+    SHOW(P, 100, 100);
+    SHOW(Q, 100, 180);
     POLY A;
-    A.init();
-
-    MONO* hP = P.Head, * hQ = Q.Head;
-    MONO* hA, * p;
-
+    A = Q.CopyPoly();
+    MONO* hA = A.Head, * hP = P.Head, * Q1, * Q2, * AVAIL, *hQ = Q.Head;
+    int xP = 100, yP = 100, xQ = 100, yQ = 180, xA = 100, yA = 300;
+    Q1 = hA;
     while (hP->next != P.Head) {
-        hA = (MONO*)malloc(sizeof(MONO));
-        hA->COEF = hP->COEF; hA->A = hP->A; hA->B = hP->B; hA->C = hP->C; hA->S = 1;
-        hA->next = A.Head;
-        A.insertTail(hA);
-        hP = hP->next;
+        if (tinhABC(hP) < tinhABC(hA)) {
+            Q1 = hA;
+            if (hA->next->next != A.Head) {
+                DrawANode(hQ, xQ, yQ, 9, 0);
+                xQ += nx + 33 + nx / 3;
+                DrawANode(hA, xA, yA, 9, 0);
+                xA += nx + 33 + nx / 3;
+            }
+            hA = hA->next;
+            Sleep(1000);
+        }
+        else if (tinhABC(hP) == tinhABC(hA)) {
+            hA->COEF += hP->COEF;
+            if (hP->next->next != P.Head && hA->next->next != A.Head) {
+                DrawANode(hP, xP, yP, 10, 0);
+                xP += nx + 33 + nx / 3;
+                DrawANode(hQ, xQ, yQ, 10, 0);
+                xQ += nx + 33 + nx / 3;
+                DrawANode(hA, xA, yA, 10, 0);
+                xA += nx + 33 + nx / 3;
+            }
+            if (hA->COEF == 0) {
+                Q2 = hA;
+                Q1->next = hA;
+                hA = hA->next;
+                AVAIL = Q2;
+                hP = hP->next;
+            }
+            Sleep(1000);
+        }
+        else {
+            if (hP->next->next != P.Head) {
+                DrawANode(hP, xP, yP, 8, 0);
+                xP += nx + 33 + nx / 3;
+                DrawANode(hA, xA, yA, 8, 0);
+                xA += nx + 33 + nx / 3;
+            }
+            AVAIL = (MONO*)malloc(sizeof(MONO));
+            Q2 = AVAIL;
+            Q2->COEF = hP->COEF; Q2->A = hP->A; Q2->B = hP->B; Q2->C = hP->C; Q2->S = hP->S;
+            Q2->next = hA;
+            Q1->next = Q2;
+            Q1 = Q2;
+            hP = hP->next;
+            Sleep(1000);
+        }
     }
-    while (hQ->next != Q.Head) {
-        hA = (MONO*)malloc(sizeof(MONO));
-        hA->COEF = hQ->COEF; hA->A = hQ->A; hA->B = hQ->B; hA->C = hQ->C; hA->S = 1;
-        hA->next = A.Head;
-        A.insertTail(hA);
-        hQ = hQ->next;
-    }
-    p = (MONO*)malloc(sizeof(MONO));
-    p->COEF = 0; p->A = 0; p->B = 0; p->C = 1; p->S = 0; p->next = A.Head;
-    A.insertTail(p);
-    A.RemoveZero();
-    A.RemoveDup();
-    A.Sort();
     return A;
 }
 
@@ -196,54 +253,7 @@ POLY Mul(POLY P, POLY Q) {
     return M;
 }
 
-void moPhongAdd(POLY P, POLY Q) {
-    SHOW(P, 100, 100);
-    SHOW(Q, 100, 180);
-    POLY A = Add(P, Q);
-    int xP = 100, yP = 100, xQ = 100, yQ = 180, xA = 100, yA = 300;
-    MONO* hP = P.Head, * hQ = Q.Head, * hA = A.Head;
-    Sleep(500);
-    while (hA->next != A.Head) {
-        if (tinhABC(hP) < tinhABC(hQ)) {
-            DrawANode(hQ, xQ, yQ, 9, 0);
-            xQ += nx + 33 + nx / 3;
-            DrawANode(hA, xA, yA, 9, 0);
-            xA += nx + 33 + nx / 3;
-            hQ = hQ->next;
-            hA = hA->next;
-            Sleep(1000);
-        }
-        else if (tinhABC(hP) == tinhABC(hQ))
-        {
-            DrawANode(hP, xP, yP, 10, 0);
-            xP += nx + 33 + nx / 3;
-            DrawANode(hQ, xQ, yQ, 10, 0);
-            xQ += nx + 33 + nx / 3;
-            DrawANode(hA, xA, yA, 10, 0);
-            xA += nx + 33 + nx / 3;
-            hP = hP->next;
-            hQ = hQ->next;
-            hA = hA->next;
-            Sleep(1000);
-        }
-        else if (tinhABC(hP) > tinhABC(hQ)) {
-            DrawANode(hP, xP, yP, 8, 0);
-            xP += nx + 33 + nx / 3;
-            DrawANode(hA, xA, yA, 8, 0);
-            xA += nx + 33 + nx / 3;
-            hP = hP->next;
-            hA = hA->next;
-            Sleep(1000);
-        }
-        if (hA->next == A.Head) {
-            DrawANode(hA, xA, yA, 7, 0);
-            xA += nx + 33 + nx / 3;
-            Sleep(1000);
-        }
-    }
-}
-
-
+//Mo phong phep nhan 2 da thuc P va Q
 void moPhongMul(POLY P, POLY Q) {
     POLY M = Mul(P, Q);
     POLY T;
@@ -427,8 +437,9 @@ int main()
             else if (luachon == 3) {
                 x = 100; y = 50;
                 system("cls");
-                moPhongAdd(s1, s2); 
-                Sleep(1000);
+                Sleep(500);
+                POLY A = Add(s1, s2);
+                Sleep(500);
                 system("cls");
                 /*char* text = (char*)"DA THUC THU NHAT: P = ";
                 lineWithText(x, y, 0, 0, text);
@@ -442,9 +453,6 @@ int main()
                 text = (char*)"Q = ";
                 lineWithText(50, 192, 0, 0, text);
                 SHOW(s2, 100, 180);
-                POLY t1 = s1.CopyPoly();
-                POLY t2 = s2.CopyPoly();
-                POLY A = Add(t1, t2);
                 text = (char*)"KET QUA PHEP CONG: A = P + Q = ";
                 lineWithText(100, 370, 0, 0, text);
                 InDaThuc(100 + strlen(text) * 9 - 9, 370, A);
