@@ -314,6 +314,7 @@ void moPhongMul(POLY P, POLY Q) {
     }
 }
 
+//LOI
 POLY AddBangThuatToan(POLY P, POLY Q) {
     SHOW(P, 100, 100);
     SHOW(Q, 100, 180);
@@ -397,8 +398,8 @@ int main()
     POLY s2;
     s2.init();
 
-    FILE* file1 = fopen("../input1_2.txt", "r");
-    FILE* file2 = fopen("../input2_2.txt", "r");
+    FILE* file1 = fopen("../input1_1.txt", "r");
+    FILE* file2 = fopen("../input2_1.txt", "r");
 
     if (!file1) {
         printf("Reading error!");
@@ -438,10 +439,6 @@ int main()
     s1.Sort(); s1.RemoveDup();
     s2.Sort(); s2.RemoveDup();
     ShowCur(0);
-
-    /*_getch();
-    AddBangThuatToan(s1, s2);
-    _getch();*/
 
     //system("pause");
     //system("cls");
