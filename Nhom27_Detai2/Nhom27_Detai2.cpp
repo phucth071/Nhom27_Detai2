@@ -314,76 +314,6 @@ void moPhongMul(POLY P, POLY Q) {
     }
 }
 
-//LOI
-POLY AddBangThuatToan(POLY P, POLY Q) {
-    SHOW(P, 100, 100);
-    SHOW(Q, 100, 180);
-    POLY A;
-    A = Q.CopyPoly();
-    MONO* hA = A.Head, * hP = P.Head, * Q1, * Q2, * AVAIL, * hQ = Q.Head;
-    int xP = 100, yP = 100, xQ = 100, yQ = 180, xA = 100, yA = 300;
-    Q1 = hA;
-    while (true) {
-        if (tinhABC(hP) < tinhABC(hA)) {
-            Q1 = hA;
-            if (hA->next != A.Head) {
-                DrawANode(hQ, xQ, yQ, 9, 0);
-                xQ += nx + 33 + nx / 3;
-                DrawANode(hA, xA, yA, 9, 0);
-                xA += nx + 33 + nx / 3;
-            }
-            hA = hA->next;
-            hQ = hQ->next;
-            Sleep(1000);
-        }
-        else if (tinhABC(hP) == tinhABC(hA)) {
-            hA->COEF += hP->COEF;
-            if (tinhABC(hP) < 0)
-                break;
-            if (hP->next != P.Head && hA->next != A.Head) {
-                DrawANode(hP, xP, yP, 10, 0);
-                xP += nx + 33 + nx / 3;
-                DrawANode(hQ, xQ, yQ, 10, 0);
-                xQ += nx + 33 + nx / 3;
-                DrawANode(hA, xA, yA, 10, 0);
-                xA += nx + 33 + nx / 3;
-            }
-            if (hA->COEF == 0) {
-                Q2 = hA;
-                Q1->next = hA;
-                hA = hA->next;
-                hQ = hQ->next;
-                AVAIL = Q2;
-                hP = hP->next;
-            }
-            else {
-                hP = hP->next;
-                Q1 = hA;
-                hA = hA->next;
-                hQ = hQ->next;
-            }
-            Sleep(1000);
-        }
-        else {
-            if (hP->next != P.Head) {
-                DrawANode(hP, xP, yP, 8, 0);
-                xP += nx + 33 + nx / 3;
-                DrawANode(hA, xA, yA, 8, 0);
-                xA += nx + 33 + nx / 3;
-            }
-            AVAIL = (MONO*)malloc(sizeof(MONO));
-            Q2 = AVAIL;
-            Q2->COEF = hP->COEF; Q2->A = hP->A; Q2->B = hP->B; Q2->C = hP->C; Q2->S = hP->S;
-            Q2->next = hA;
-            Q1->next = Q2;
-            Q1 = Q2;
-            hP = hP->next;
-            Sleep(1000);
-        }
-    }
-    return A;
-}
-
 int main()
 {
     system("color f1");
@@ -398,8 +328,8 @@ int main()
     POLY s2;
     s2.init();
 
-    FILE* file1 = fopen("../input1_1.txt", "r");
-    FILE* file2 = fopen("../input2_1.txt", "r");
+    FILE* file1 = fopen("../input1_2.txt", "r");
+    FILE* file2 = fopen("../input2_2.txt", "r");
 
     if (!file1) {
         printf("Reading error!");
@@ -439,6 +369,10 @@ int main()
     s1.Sort(); s1.RemoveDup();
     s2.Sort(); s2.RemoveDup();
     ShowCur(0);
+
+    _getch();
+    AddBangThuatToan(s1, s2);
+    _getch();
 
     //system("pause");
     //system("cls");
