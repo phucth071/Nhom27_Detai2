@@ -298,7 +298,7 @@ void moPhongMul(POLY P, POLY Q) {
         while (hT->next != T.Head) {
             if (tinhABC(hM) == tinhABC(hT)) {
                 DrawANode(hT, pos[i].posx, pos[i].posy, color, 0);
-                Sleep(300);
+                Sleep(200);
             }
             i++;
             hT = hT->next;
@@ -320,16 +320,17 @@ int main()
     char ini[] = "C:\\TURBOC3\\BGI";
     initgraph();
     int x = 100, y = 100;
+    POLY P;
+    P.init();
+
+    POLY Q;
+    Q.init();
+
+    FILE* file1 = fopen("../input1_1.txt", "r");
+    FILE* file2 = fopen("../input2_1.txt", "r");
+
     int coef, a, b, c, s;
     MONO* p1, * p2;
-    POLY s1;
-    s1.init();
-
-    POLY s2;
-    s2.init();
-
-    FILE* file1 = fopen("../input1_2.txt", "r");
-    FILE* file2 = fopen("../input2_2.txt", "r");
 
     if (!file1) {
         printf("Reading error!");
@@ -340,13 +341,13 @@ int main()
             fscanf(file1, "%d %d %d %d\n", &coef, &a, &b, &c);
             p1 = (MONO*)malloc(sizeof(MONO));
             p1->COEF = coef; p1->A = a; p1->B = b; p1->C = c; p1->S = s;
-            p1->next = s1.Head;
-            s1.insertTail(p1);
+            p1->next = P.Head;
+            P.insertTail(p1);
         } while (!feof(file1));
     }
     p1 = (MONO*)malloc(sizeof(MONO));
-    p1->COEF = 0; p1->A = 0; p1->B = 0; p1->C = 1; p1->S = 0; p1->next = s1.Head;
-    s1.insertTail(p1);
+    p1->COEF = 0; p1->A = 0; p1->B = 0; p1->C = 1; p1->S = 0; p1->next = P.Head;
+    P.insertTail(p1);
     if (!file2) {
         printf("Reading error!");
     }
@@ -356,23 +357,19 @@ int main()
             fscanf(file2, "%d %d %d %d\n", &coef, &a, &b, &c);
             p2 = (MONO*)malloc(sizeof(MONO));
             p2->COEF = coef; p2->A = a; p2->B = b; p2->C = c; p2->S = s;
-            p2->next = s2.Head;
-            s2.insertTail(p2);
+            p2->next = Q.Head;
+            Q.insertTail(p2);
         } while (!feof(file2));
     }
     p2 = (MONO*)malloc(sizeof(MONO));
-    p2->COEF = 0; p2->A = 0; p2->B = 0; p2->C = 1; p2->S = 0; p2->next = s2.Head;
-    s2.insertTail(p2);
+    p2->COEF = 0; p2->A = 0; p2->B = 0; p2->C = 1; p2->S = 0; p2->next = Q.Head;
+    Q.insertTail(p2);
     fclose(file1);
     fclose(file2);
 
-    s1.Sort(); s1.RemoveDup();
-    s2.Sort(); s2.RemoveDup();
+    P.Sort(); P.RemoveDup();
+    Q.Sort(); Q.RemoveDup();
     ShowCur(0);
-
-    _getch();
-    AddBangThuatToan(s1, s2);
-    _getch();
 
     //system("pause");
     //system("cls");
@@ -410,9 +407,9 @@ int main()
                 system("cls");
                 char* text = (char*)"DA THUC THU NHAT: P = ";
                 lineWithText(100, y, 0, 0, text);
-                InDaThuc(100 + strlen(text) * 9, y, s1);
+                InDaThuc(100 + strlen(text) * 9, y, P);
                 y += 25;
-                SHOW(s1, 100, 100);
+                SHOW(P, 100, 100);
                 text = (char*)"AN NUT BAT KY DE QUAY VE MENU...";
                 lineWithText(100, 170, 0, 0, text);
                 _getch();
@@ -422,9 +419,9 @@ int main()
                 system("cls");
                 char* text = (char*)"DA THUC THU HAI: Q = ";
                 lineWithText(100, y, 0, 0, text);
-                InDaThuc(100 + strlen(text) * 9 - 7, y, s2);
+                InDaThuc(100 + strlen(text) * 9 - 7, y, Q);
                 y += 25;
-                SHOW(s2, 100, 100);
+                SHOW(Q, 100, 100);
                 text = (char*)"AN NUT BAT KY DE QUAY VE MENU...";
                 lineWithText(100, 170, 0, 0, text);
                 _getch();
@@ -432,7 +429,7 @@ int main()
             else if (luachon == 3) {
                 x = 100; y = 50;
                 system("cls");
-                moPhongAdd(s1, s2);
+                moPhongAdd(P, Q);
                 Sleep(500);
                 system("cls");
                 /*char* text = (char*)"DA THUC THU NHAT: P = ";
@@ -440,16 +437,16 @@ int main()
                 InDaThuc(x + strlen(text) * 9, y, s1);*/
                 char* text = (char*)"P = ";
                 lineWithText(50, 112, 0, 0, text);
-                SHOW(s1, 100, 100);
+                SHOW(P, 100, 100);
                 /*text = (char*)"DA THUC THU HAI: Q = ";
                 lineWithText(x + 100 + (nx + 100), y, 0, 0, text);
                 InDaThuc(x + 100 + strlen(text) * 9 - 6 + (nx + 100), y, s2);*/
                 text = (char*)"Q = ";
                 lineWithText(50, 192, 0, 0, text);
-                SHOW(s2, 100, 180);
+                SHOW(Q, 100, 180);
                 text = (char*)"KET QUA PHEP CONG: A = P + Q = ";
                 lineWithText(100, 370, 0, 0, text);
-                POLY A = Add(s1, s2);
+                POLY A = Add(P, Q);
                 InDaThuc(100 + strlen(text) * 9 - 9, 370, A);
                 setcolor(1);
                 text = (char*)"A = ";
@@ -462,7 +459,7 @@ int main()
             else if (luachon == 4) {
                 x = 100; y = 50;
                 system("cls");
-                moPhongMul(s1, s2);
+                moPhongMul(P, Q);
                 Sleep(1000);
                 system("cls");
                 /*char* text = (char*)"DA THUC THU NHAT: P = ";
@@ -470,16 +467,14 @@ int main()
                 InDaThuc(x + strlen(text) * 9, y, s1);*/
                 char* text = (char*)"P = ";
                 lineWithText(50, 112, 0, 0, text);
-                SHOW(s1, 100, 100);
+                SHOW(P, 100, 100);
                 /*text = (char*)"DA THUC THU HAI: Q = ";
                 lineWithText(x + 100 + (nx + 100), y, 0, 0, text);
                 InDaThuc(x + 100 + strlen(text) * 9 - 6 + (nx + 100), y, s2);*/
                 text = (char*)"Q = ";
                 lineWithText(50, 192, 0, 0, text);
-                SHOW(s2, 100, 180);
-                POLY t1 = s1.CopyPoly();
-                POLY t2 = s2.CopyPoly();
-                POLY M = Mul(t1, t2);
+                SHOW(Q, 100, 180);
+                POLY M = Mul(P, Q);
                 text = (char*)"KET QUA PHEP NHAN: M = P x Q = ";
                 lineWithText(100, 370, 0, 0, text);
                 InDaThuc(100 + strlen(text) * 9 - 9, 370, M);
